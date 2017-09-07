@@ -1,12 +1,19 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
-  
+
   def new
     @post = Post.new
   end
 
   def index
 
+  end
+
+  def show
+    @post = Post.find_by_id(params[:id])
+    if @post.blank?
+      render plain: 'Not Found :(', status: :not_found
+    end
   end
 
   def create

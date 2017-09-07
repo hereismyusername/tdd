@@ -1,4 +1,6 @@
 require 'rails_helper'
+
+RSpec.describe PostsController, type: :controller do
   describe "posts#show action" do
     it "should successfully show the page if the post is found" do
       post = FactoryGirl.create(:post)
@@ -11,7 +13,6 @@ require 'rails_helper'
     end
   end
 
-RSpec.describe PostsController, type: :controller do
   describe "posts#index action" do
     it "should successfully show the page" do
       get :index
@@ -59,6 +60,6 @@ RSpec.describe PostsController, type: :controller do
       post_count = Post.count
       post :create, params: { post: { message: '' } }
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(Post.count).to eq 0
+      expect(post_count).to eq Post.count
     end
   end
