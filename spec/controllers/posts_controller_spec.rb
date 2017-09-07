@@ -1,4 +1,15 @@
 require 'rails_helper'
+  describe "posts#show action" do
+    it "should successfully show the page if the post is found" do
+      post = FactoryGirl.create(:post)
+      get :show, params: { id: post.id }
+      expect(response).to have_http_status(:success)
+    end
+    it "should return a 404 error if the post is not found" do
+      get :show, params: { id: 'TACOCAT' }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 
 RSpec.describe PostsController, type: :controller do
   describe "posts#index action" do
@@ -24,7 +35,6 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe "posts#create action"
-
     it "should require users to be logged in" do
       post :create, params: { post: { message: "Hello" } }
       expect(response).to redirect_to new_user_session_path
